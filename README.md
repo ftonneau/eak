@@ -534,6 +534,15 @@ The mnemonic is the same as for `Y`: think of "Y" as a fork, with prongs pointin
 at the first and last characters of the selection.
 
 
+# Related work
+
+* [geospatial.kak](https://codeberg.org/mutt/modal-keymap) is an alternative
+remapping based on geospatial keyboard locations rather than mnemonics
+
+* [god-mode.kak](https://github.com/selectgender/god-mode.kak) is a Kakoune
+plugin inspired by Emacs' God mode
+
+
 # License
 
 MIT
