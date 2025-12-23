@@ -6,11 +6,11 @@ Eak/EAK is a set of key assignments for the [Kakoune](https://kakoune.org/) edit
 that makes it (a lot) **easier on your fingers** and even (a bit) **easier on
 your brain**. In Eak:
 
-* there are no double chords (you never need to press `Alt-Shift-...`)
+* there are no double modifiers (you never need to press `Alt-Shift-...`)
 
 * selections are extended without holding `Shift`
 
-* more common operations involve fewer chords (e.g., you repeat object selection
+* more common operations involve fewer modifiers (e.g., you repeat object selection
 with `o` instead of `Alt-.`)
 
 * actions on selections involve easy mnemonics: `F` to fuse selections, `D` to
@@ -37,7 +37,7 @@ requires knowing the default keymap anyway, so you cannot skip this familiarizat
 phase.
 
 Once you are thoroughly familiar with Kakoune, you may consider using Eak if (and
-only if) the prevalence of chords in the default keymap bothers you.
+only if) the prevalence of modifiers in the default keymap bothers you.
 
 
 # Install
@@ -144,7 +144,7 @@ As in plain Kakoune, `w` and `b` accept counts.
 
 # Step 3: selecting a character with t or Alt-t
 
-Kakoune offers a number of character-finding operations (`f`, `t`, and their chorded
+Kakoune offers a number of character-finding operations (`f`, `t`, and their 
 variants). In Eak, we keep only one character-finding operation, launched by `t`
 (when searching forward) or `Alt-t` (when searching backward). This operation just
 looks for a target character and selects it.
@@ -186,7 +186,7 @@ holding `f` will move the selection forward by subwords, and `E` will extend the
 selection forward by subwords.
 
 Overall, combining WORD movements at a larger scale with subword exploration at a
-smaller scale maximizes navigation speed while minimizing the amount of chording
+smaller scale maximizes navigation speed while minimizing the number of modifiers
 involved.
 
 
@@ -333,11 +333,11 @@ of the selection operations can be found in Kakoune's documentation (see `:doc k
 Only a few mnemonics deserve comments:
 
 * the key for clearing the main selection is `#`; think of commenting out the main
-selection (as in a shell script: `# ...`)
+selection 
 
 * the key for duplicating the current selection on the previous line is `B` because
 Kakoune's key for duplicating the current selection on the next line is `C`; "C"
-means "copying", and the letter "B" comes before "C" in the alphabet
+means "copying", and "B" comes before "C" in the alphabet
 
 * Eak's keys for liberal indent and unindent (`Alt->` and `Alt-<` in plain
 Kakoune) are directional, with `L` meaning "right" and `H` meaning "left" (as
@@ -374,7 +374,7 @@ in the chosen direction**.
 # Step 10: making rotation smart
 
 In Eak, `Alt-r` and `Alt-q` rotate selection contents forward and backward, respectively
-(mnemonics: "r" means "rotation", and the letter "q" comes before "r" in the alphabet).
+(mnemonics: "r" means "rotation", and "q" comes before "r" in the alphabet).
 
 Whereas in Kakoune, rotation requires at least two selections to proceed, Eak makes
 content rotation faster by allowing it to proceed on a **single selection**:
@@ -501,7 +501,7 @@ will operate **in relation to the direction of the ongoing search**:
 * `N` will move to the **previous** target 
 
 This behavior is more consistent with Vim than with plain Kakoune, and allows us
-to get rid of the `Alt-N` double chord.
+to bypass the double modifier in `Alt-Shift-n`.
 
 Eak defines two other facilities to make searching easier:
 
@@ -519,7 +519,7 @@ This section addresses Kakoune facilities not yet covered:
 * `!` pipes each selection through an external program, ignoring its output 
 
 * `Alt-v` redoes the last selection change (mnemonic: Kakoune undoes the last
-selection change with `Alt-u`, and the letter `v` follows `u` in the alphabet)
+selection change with `Alt-u`, and `v` follows `u` in the alphabet)
 
 * `@` opens a menu that lets you convert tabs to spaces or spaces to tabs (plain
 Kakoune uses `@` and `Alt-@` to this end)
