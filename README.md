@@ -322,8 +322,8 @@ of the selection operations can be found in Kakoune's documentation (see `:doc k
 | Duplicate selection on previous line | B   | Alt-C         |
 | Duplicate selection on next line     | C   | C             |
 | Copy indent                          | I   | Alt-&         |
-| Decrease indent liberally            | L   | Alt->         |
-| Increase indent liberally            | H   | Alt-<         |
+| Decrease indent liberally            | H   | Alt-<         |
+| Increase indent liberally            | L   | Alt->         |
 | Join lines                           | J   | Alt-j         |
 | Join lines and select whitespace     | W   | Alt-J         |
 | Trim selections of non-full lines    | T   | Alt-x         |
@@ -341,7 +341,7 @@ means "copying", and "B" comes before "C" in the alphabet
 
 * Eak's keys for liberal indent and unindent (`Alt->` and `Alt-<` in plain
 Kakoune) are directional, with `L` meaning "right" and `H` meaning "left" (as
-per the `h` and `l` keys for horizontal movement)
+with `l` and `h`)
 
 * the key for selecting the first and last characters in the selection is `Y`;
 think of "Y" as a fork, with prongs pointing at the first and last characters
