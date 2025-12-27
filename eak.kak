@@ -977,7 +977,7 @@ map global normal E     ':eak-extend-chunk-fd <ret>'
 map global normal <a-f> ':eak-select-chunk-bd <ret>'
 
 map global EakBeg i I      -docstring '|< insert'
-map global EakBeg <lt> <!> -docstring 'output<'
+map global EakBeg <lt> <!> -docstring 'external<'
 map global EakBeg <ret>   ':eak-flip-select L   { space <ret><a-x>'    -docstring Space
 map global EakBeg <space> ':eak-flip-select L a-{ space <ret>'         -docstring space
 map global EakBeg W       ':eak-flip-select L a-{ a-w <ret>'           -docstring Word
@@ -1044,7 +1044,7 @@ map global EakMid t ':eak-reach-lims a-i <ret>' -docstring delimiter
 map global EakMid * <a-*>                       -docstring 'exact search'
 
 map global EakEnd i A        -docstring 'insert >|'
-map global EakEnd <gt> <a-!> -docstring '>output'
+map global EakEnd <gt> <a-!> -docstring '>external'
 map global EakEnd <ret>   ':eak-flip-select R   } space <ret><a-x>'    -docstring Space
 map global EakEnd <space> ':eak-flip-select R a-} space <ret>'         -docstring space
 map global EakEnd W       ':eak-flip-select R a-} a-w <ret>'           -docstring Word
