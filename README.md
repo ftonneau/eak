@@ -32,15 +32,15 @@ Do not use Eak if you are new to Kakoune. Instead, spend some time learning abou
 Kakoune's operations (especially those that involve multiple selections) and please
 **become familiar with the default keymap**.
 
-Eak is merely a wrapper around Kakoune's editing model, and writing shareable plugins
-requires knowing the default keymap anyway, so you cannot skip this familiarization
-phase.
+Many of Kakoune's default key combinations (for example, those without `Alt-Shift`)
+**remain valid in Eak**, and writing shareable plugins requires knowing the default
+keymap anyway, so you cannot skip this familiarization phase.
 
-Once you are thoroughly familiar with Kakoune, you may consider using Eak if (and
-only if) the prevalence of modifiers in the default keymap bothers you.
+Once you are familiar with Kakoune, you may consider using Eak if (and only if) the
+prevalence of modifiers in the default keymap bothers you.
 
 
-# Install
+# Installation
 
 Download the provided [eak.kak](eak.kak) file and put it somewhere into your autoload
 directory tree.
@@ -51,16 +51,38 @@ Eak's mappings are defined inside an `eak-map` command that runs automatically a
 startup. Do not call `eak-map` yourself, unless Eak's mappings were overwritten by
 accident (in which case `eak-map` will restore them).
 
+## Other plugins
 
-# EXPLANATION
-
-Moving from plain Kakoune to Eak involves the following steps, which you must
-understand in order to use Eak effectively. Fortunately, however, many of the key
-mappings mentioned below are discoverable as part of the `-`, `z`, `x`, `e`, or `g`
-menus, so there is no need to remember everything at once.
+Eak being only a set of remappings, it should not interfere with any of your other
+scripts/plugins, unless they call Kakoune's `execute-keys` command with the `-with-maps`
+switch (a bad idea, precisely because it puts your plugins at the mercy of any keymap
+change).
 
 
-# Step 1: making h, j, k, l smart
+# USAGE
+
+What follows is an explanation of Eak's keymap, organized by sections to facilitate
+learning. 
+
+The most important sections (about **moving directionally** and **moving by words**)
+come first, as it is there that Eak and plain Kakoune differ more strongly. In plain
+Kakoune, different keys are used for extending and moving. In Eak, the same keys may
+move or extend the selection, depending on its current state (e.g., how many characters
+it contains).
+
+Once you understand Eak's basic movements, the next step is to use `z`, `x`, `e`
+(meaning roughly "left", "center," and "right") for insertion and selection.
+
+The rest is just to learn the mnemonics for common operations, and using `-` to handle
+groups of selections/marks. Fortunately, many of the key mappings mentioned below are
+discoverable as part of the `-`, `z`, `x`, `e`, and `g` menus, so there is no need
+to remember everything at once.
+
+You can read the explanation online or [download it as a text file](USAGE.txt), open
+it in Kakoune, and check the explanation hands-on.
+
+
+# Moving directionally
 
 In plain Kakoune, `h`, `j`, `k`, `l` move the cursor horizontally or vertically,
 whereas `H`, `J`, `K`, `L` extend the selection.
@@ -91,7 +113,7 @@ cursor to the right** and keeps doing so until reaching line end. Once on line e
 the comma puts the cursor at the start of the next line, and from there, the comma
 keeps moving down.
 
-[Try holding `,` for moving forward—you may like it.]
+[Try holding `,` for **moving forward**—you may like it.]
 
 The logic behind `h` and `l` also applies to the **vertical movement keys**, `j` and
 `k`. They move the cursor up and down if the selection does not consist of a block
@@ -108,25 +130,25 @@ As in plain Kakoune, `h`, `j`, `k`, `l` accept counts.
 
 ## Note
 
-Making movements smart is Eak's substitute to an added extension mode, only that
-you do not need to remember which "mode" you are in. Whether you are moving or
-extending is visually obvious.
+Making movements smart is Eak's substitute to an added extension mode, with the
+exception that you do not need to remember which "mode" you are in. Whether you are
+moving or extending is visually obvious.
 
-# Step 2: making w and b smart
+# Moving by words
 
 Like Vim, plain Kakoune defines a variety of word movements and two types of "words" to
 which these movements apply. Simplifying a bit, small words are delimited by whitespace
-or punctuation, whereas WORDS are separated only by whitespace.
+or punctuation, whereas WORDs are separated only by whitespace.
 
 **Small words are difficult to count and slow to move by**. Accordingly, in Eak, we
-move around by WORDS, either in the forward direction (with `w`) or in the backward
-direction (with `b`). Also, `w` and `b` are smart. They move the selection by WORDS
+move around by WORDs, either in the forward direction (with `w`) or in the backward
+direction (with `b`). Also, `w` and `b` are smart. They move the selection by WORDs
 if it does not already span WORD boundaries; otherwise, `w` and `b` **extend** the
-selection by WORDS. If, for example, you have a paragraph selected, typing `w`
+selection by WORDs. If, for example, you have a paragraph selected, typing `w`
 will extend the paragraph one WORD to the right.
 
 As usual, you can start extending by typing `-` before `w` or `b`. The selection
-will span two WORDS, at which stage typing the hyphen becomes unnecessary. You
+will span two WORDs, at which stage typing the hyphen becomes unnecessary. You
 can stop extending at any time by typing the comma or jumping to another part
 of the buffer.
 
@@ -142,33 +164,14 @@ Note that in Eak, WORD removal with `b` is exact, whereas in plain Kakoune, typi
 As in plain Kakoune, `w` and `b` accept counts.
 
 
-# Step 3: selecting a character with t or Alt-t
+# Moving by subwords
 
-Kakoune offers a number of character-finding operations (`f`, `t`, and their 
-variants). In Eak, we keep only one character-finding operation, launched by `t`
-(when searching forward) or `Alt-t` (when searching backward). This operation just
-looks for a target character and selects it.
-
-Behind the scenes, however, the operation calls Kakoune's `F` or `Alt-F` (which extends
-the selection) before reducing the selection to its endpoint. Thus, repeating the last
-selection by typing `o` will **select everything between two successive occurrences
-of the target character**. For example, typing:
-
-```
-t"o
-```
-
-will select any text in double quotes to the right of the cursor.
-
-
-# Step 4: adding subword navigation
-
-Eak's decision to move by WORDS instead of words makes buffer navigation faster.
+Eak's decision to move by WORDs instead of words makes buffer navigation faster.
 Once we have reached a WORD of interest, however, we may want to explore its parts.
 
-Eak uses `f`, `Alt-f`, and `E` (three keys that Steps 2 and 3 freed for reuse) to
-move by **subwords**. In "camelCase", for example, there are two subwords ("camel"
-and "Case"), and in "off-the-shelf" there are three subwords ("off", "the", and "shelf").
+Eak uses `f`, `Alt-f`, and `E` to move by **subwords**. In "camelCase", for example,
+there are two subwords ("camel" and "Case"), and in "off-the-shelf" there are three
+subwords ("off", "the", and "shelf").
 
 Assume that you have "off-the-shelf" selected. Typing `f` will move the cursor back
 to word start and select **the first subword**, "off". From there, holding `f` will
@@ -189,8 +192,53 @@ Overall, combining WORD movements at a larger scale with subword exploration at 
 smaller scale maximizes navigation speed while minimizing the number of modifiers
 involved.
 
+# Moving to a target character
 
-# Step 5: introducing z, x, e
+Eak defines only one basic character-finding operation, launched by `t` (when searching
+forward) or `Alt-t` (when searching backward). This operation looks for a target
+character and selects it.
+
+Behind the scenes, however, the operation extends the selection before reducing it to
+its endpoint. Thus, repeating the last selection by typing `o` will **select everything
+between two successive occurrences of the target character**. For example, typing:
+
+```
+t"o
+```
+
+will select the closest text in double quotes to the right of the cursor.
+
+
+# Moving around faster
+
+Eak navigates **by paragraph beginnings** in the forward and backward directions with
+`]` and `[`, respectively. These commands accept a count.
+
+Eak navigates **by sentence beginnings** in the forward and backward directions with
+`}` and `{`, respectively. These commands do not accept a count.
+
+In plain Kakoune, `m` and `Alt-m` allow you to find the closest **m-segment**, that is,
+the closest **segment enclosed by matching characters** (e.g., `{...}`). Once a segment
+found, however, typing `m` or `Alt-m` has no effect; the selection remains stuck in
+place. By contrast, Eak's `m` and `Alt-m` allow you to **navigate by m-segments**,
+in the forward direction (with `m`) or in the backward direction (with `Alt-m`).
+
+Eak also adds new facilities to Kakoune's **goto command** (`g`):
+
+| Key sequence | Action                                                       |
+|--------------|--------------------------------------------------------------|
+| `gm`         | Move the (single) cursor to the middle column                |
+| `g,`         | Detach (i.e., select) the first character of each selection  |
+| `gk`         | Move the cursor to the line above the first selection        |
+| `gj`         | Move the cursor to the line below the last selection         |
+| `g[`         | Move the cursor to the paragraph above the first selection   |
+| `g]`         | Move the cursor to the paragraph below the last selection    |
+
+The last four commands get rid of multiple selections to go back to a single
+one (the cursor).
+
+
+# Introducing z, x, e
 
 In Eak's Normal mode, `z`, `x`, and `e` have special meaning:
 
@@ -202,21 +250,21 @@ In Eak's Normal mode, `z`, `x`, and `e` have special meaning:
 
 Some uses of `z` and `e` concern insertion at the line level (`i`). With the cursor
 on a given line, you can **insert text** on the left of the first non-blank by typing
-`zi`, and you can insert text on the right of the line by typing `ei`. You can also
-insert the output of an **external program** on the left of the current selection
-with `z<`, and on the right of the current selection with `e>`.
+`zi`, and you can insert text on the right of the line by typing `ei`. You can insert
+the output of an **external program** on the left of the current selection with `z<`,
+and on the right of the current selection with `e>`.
 
 Prefixed with `z` or `e`, other keys **extend the selection** to a target on the
 left or on the right:
 
-| Key sequence | Target                                                           |
-|--------------|------------------------------------------------------------------|
-| `zm`         | The previous segment enclosed by a matching pair (e.g., `{...}`) |
-| `em`         | The next segment enclosed by a matching pair (e.g., `{...}`)     |
-| `zt`         | The closest target character on the left                         |
-| `et`         | The closest target character on the right                        |
-| `z/`         | The closest search term (`/...`) on the left                     |
-| `e/`         | The closest search term (`/...`) on the right                    |
+| Key sequence | Target                                             |
+|--------------|----------------------------------------------------|
+| `zm`         | The previous m-segment (e.g., `{...}`)             |
+| `em`         | The next m-segment (e.g., `{...}`)                 |
+| `zt`         | The closest target character (`t...`) on the left  |
+| `et`         | The closest target character (`t...`) on the right |
+| `z/`         | The closest search term (`/...`) on the left       |
+| `e/`         | The closest search term (`/...`) on the right      |
 
 Also, prefixing Kakoune's **selection-search operator** (`*`) with `x` ("center"
 or "here") will make Kakoune **search for the current selection verbatim**: Kakoune
@@ -224,9 +272,9 @@ will look for the selection even when embedded in larger words (as opposed to
 being surrounded by word boundaries).
 
 
-# Step 6: using z, x, e with objects
+# Selecting objects with z, x, e
 
-The more common use case for `z`, `x`, and `e` is **object selection**:
+A common use case for `z`, `x`, and `e` is **object selection**:
 
 * `z` extends the selection to object start
 
@@ -300,17 +348,11 @@ map global EakMid f ':select-my-function-object  <ret>'
 will make `xf` launch `select-my-function-object`.
 
 
-# Step 7: using a single quote to run macros
+# Operating on selections
 
-In plain Kakoune, we run ("quote") a recorded macro with `q`. In Eak, we use a
-single quote (`'`) instead, so that `q` can be repurposed.
-
-
-# Step 8: handling common selection operations
-
-Now that Steps 1 to 7 have freed many keys for reuse, common selection operations can
-be given **easy mnemonics**, as shown by the following table. More detailed explanations
-of the selection operations can be found in Kakoune's documentation (see `:doc keys`).
+In Eak, selection operations have **simple mnemonics**, as shown by the following
+table. More detailed explanations of selection operations can be found in Kakoune's
+documentation (see `:doc keys`).
 
 | Selection operation                  | Eak | Plain Kakoune |
 |--------------------------------------|-----|---------------|
@@ -330,86 +372,74 @@ of the selection operations can be found in Kakoune's documentation (see `:doc k
 | Select first and last characters     | Y   | Alt-S         |
 | Keep only the main selection         | q   | ,             |
 
-Only a few mnemonics deserve comments:
+Only a few entries are worth commenting:
 
-* the key for clearing the main selection is `#`; think of commenting out the main
-selection 
+* `#` clears the main selection; think of commenting out the main selection
 
-* the key for duplicating the current selection on the previous line is `B` because
-Kakoune's key for duplicating the current selection on the next line is `C`; "C"
-means "copying", and "B" comes before "C" in the alphabet
+* `B` duplicates the selection on the previous line because in Kakoune, `C`
+duplicates the selection on the next line; "C" means "copying", and "B" comes
+before "C" in the alphabet
 
-* Eak's keys for liberal indent and unindent (`Alt->` and `Alt-<` in plain
-Kakoune) are directional, with `L` meaning "right" and `H` meaning "left" (as
-with `l` and `h`)
+* Eak's keys for liberal indent and unindent (`Alt->` and `Alt-<` in plain Kakoune)
+are directional; `L` means "right" and `H` means "left" (cf. `l` and `h`)
 
-* the key for selecting the first and last characters in the selection is `Y`;
-think of "Y" as a fork, with prongs pointing at the first and last characters
+* `Y` selects the first and last characters in the selection; think of "Y" as a fork,
+with prongs pointing at the first and last characters
 
-* the key for clearing all selections except the main one is `q`; think of
-quitting the multiple-selection display to come back to a single selection
+* `q` keeps only the the main selection; think of quitting the multiple-selection
+display to come back to a single selection
 
-## Note
+The shortcuts for splitting selections on line boundaries and rotating selection
+contents are more complex, but still easy to remember:
 
-A common selection operation not covered by the preceding table is **splitting
-on line boundaries**. In Eak, typing:
+| Selection operation                  | Eak   | Plain Kakoune |
+|--------------------------------------|-------|---------------|
+| Split selections on line boundaries  | --    | Alt-s         |
+| Rotate selection contents forward    | Alt-r | Alt-)         |
+| Rotate selection contents backward   | Alt-q | Alt-(         |
 
-* `--` (i.e., the grouping key, then minus) will **convert a block of lines
- into multiple lines**.
+As an example of `--` usage, selecting a paragraph and typing the hyphen (i.e.,
+the **grouping key**) twice will split the paragraph into a group of individual
+lines.
 
+The mnemonic for backward rotation (`Alt-q`) is that "q" comes before "r" (=
+"rotation") in the alphabet. As in plain Kakoune, these rotation keys accept
+counts.
 
-# Step 9: making matching-pair movement faster
-
-In plain Kakoune, `m` and `Alt-m` are used to find the closest **segment enclosed by a
-matching pair** (e.g., `{...}`); `m` looks for a segment on the right, whereas `Alt-m`
-looks for a segment on the left.
-
-Once a segment has been found, however, typing `m` or `Alt-m` has no further effect;
-the selection remains stuck in place.
-
-Not so in Eak, where holding `m` or `Alt-m` will move you to the **next segment
-in the chosen direction**.
-
-
-# Step 10: making rotation smart
-
-In Eak, `Alt-r` and `Alt-q` rotate selection contents forward and backward, respectively
-(mnemonics: "r" means "rotation", and "q" comes before "r" in the alphabet).
-
-Whereas in Kakoune, rotation requires at least two selections to proceed, Eak makes
-content rotation faster by allowing it to proceed on a **single selection**:
+Note that Eak makes content rotation faster by **allowing it to proceed on a
+single selection**:
 
 * if the selection is a block of outer paragraphs, including the final empty line(s),
 Eak will perform rotation by paragraphs
 
-* if the selection is a block of lines, Eak will perform rotation by lines
+* if the selection is a single block of lines, Eak will perform rotation by lines
 
 * if the selection consists of two words, Eak will permute them
 
 Automatic word permutation leaves **spaces and punctuation** unaffected. For
 example, applying `Alt-r` to "hello, Dolly" gives "Dolly, hello".
 
+Finally, aside from `C` (mentioned above), some selection operations have shortcuts
+in plain Kakoune that **are still valid in Eak**:
 
-# Step 11: handling line insertion
-
-Eak's shorcuts for line opening and editing are as follows:
-
-| Shortcut | Action                             |
-|----------|------------------------------------|
-| `Alt-a`  | Add an empty line above the cursor |
-| `Alt-o`  | Add an empty line below the cursor |
-| `A`      | Edit a new line above the cursor   |
-| `O`      | Edit a new line below the cursor   |
-
-Mnemonics: "a" means **above**, "o" means **below**.
+| Selection operation                                        | Shortcut |
+|------------------------------------------------------------|----------|
+| Align selection cursors                                    | &        |
+| Unselect surrounding whitespace                            | _        |
+| Create a selection from each regex match                   | s        |
+| Split selections by each regex match                       | S        |
+| Rotate the main selection forward                          | )        |
+| Rotate the main selection backward                         | (        |
+| Replace each selection by its output from a shell pipeline | \|       |
+| Keep the selections that return 0 from a shell pipeline    | $        |
 
 
-# Step 12: yanking and pasting
+# Yanking and pasting
 
 In Eak, `y` yanks the selection before reducing it to its cursor, which gives feedback
 on the yanking operation and detaches the selection from extension via `h`and `l`. Also,
-by consistency with keys such as `Alt-m` or `Alt-t`, we paste text **on the left of
-the selection** with `Alt-p` instead of `P`.
+by consistency with key combinations such as `Alt-m` or `Alt-t`, we paste text **on the
+left of the selection** with `Alt-p` instead of `P`.
 
 Pasting and replacement operations with **multiple selections** are handled by Eak's
 grouping key:
@@ -421,7 +451,7 @@ grouping key:
 * typing `-r` replaces all selections
 
 
-# Step 13: adjusting the selection
+# Adjusting the selection
 
 Eak has shortcuts for adjusting the size of the selection, its tail (i.e., the **side
 of the selection opposite the cursor**), and the surrounding space:
@@ -436,12 +466,26 @@ of the selection opposite the cursor**), and the surrounding space:
 | `Alt-e`  | Insert one blank on the right of the selection     |
 
 Mnemonics: "P" means "plus", "-" means "minus", `Alt-h` is like `h`, `Alt-l` is like
-`l`; as usual, "z" means "left side" and "e" means "right side".
+`l`; as usual, "z" means "left side" and "e" means "right side."
 
 Also, typing `Alt-s` **switches the orientation of the selection**.
 
 
-# Step 14: dealing with marks
+# Adjusting lines
+
+Eak's shorcuts for line opening and editing are as follows:
+
+| Shortcut | Action                             |
+|----------|------------------------------------|
+| `Alt-a`  | Add an empty line above the cursor |
+| `Alt-o`  | Add an empty line below the cursor |
+| `A`      | Edit a new line above the cursor   |
+| `O`      | Edit a new line below the cursor   |
+
+Mnemonics: "a" means **above**, "o" means **below**.
+
+
+# Using marks
 
 In Eak, `Alt-x` will ask you **to enter a letter to mark the current place**
 ("x" = "here"). Once the place has been marked, `Alt-g` will **allow you to
@@ -466,29 +510,8 @@ type `-t`: Eak will **immediately transpose** "this" and "that".
 
 The mnemonic for `-v` is that "v" means "view".
 
-# Step 15: making navigation easier
 
-Eak navigates **by paragraphs** in the forward and backward directions with
-`]` and `[`, respectively. These commands accept a count.
-
-Eak navigates **by sentences** in the forward and backward directions with
-`}` and `{`, respectively. These commands do not accept a count.
-
-Eaks also adds a few facilities to Kakoune's **goto command** (`g`):
-
-| Key sequence | Action                                                     |
-|--------------|------------------------------------------------------------|
-| `gm`         | Move the (single) cursor to the middle column              |
-| `g,`         | Select the first character of each selection               |
-| `gk`         | Move the cursor to the line above the first selection      |
-| `gj`         | Move the cursor to the line below the last selection       |
-| `g[`         | Move the cursor to the paragraph above the first selection |
-| `g]`         | Move the cursor to the paragraph below the last selection  |
-
-The last four commands get rid of multiple selections to go back to a single
-one (the cursor).
-
-# Step 16: searching
+# Searching
 
 In Eak, typing `/` will start searching in the forward direction, whereas typing `?`
 will start searching in the backward direction. Thereafter, `n`, `Alt-n`, and `N`
@@ -498,7 +521,7 @@ will operate **in relation to the direction of the ongoing search**:
 
 * `Alt-n` will add the next target to the selection(s)
 
-* `N` will move to the **previous** target 
+* `N` will move to the **previous** target
 
 This behavior is more consistent with Vim than with plain Kakoune, and allows us
 to bypass the double modifier in `Alt-Shift-n`.
@@ -512,17 +535,19 @@ of scissors)
 * typing `%` will **select all occurrences** of the selection in the buffer
 
 
-# Step 17: a mixed bag
+# A mixed bag
 
 This section addresses Kakoune facilities not yet covered:
 
-* `!` pipes each selection through an external program, ignoring its output 
+* a single quote, `'`, quotes (i.e., runs) a recorded macro
+
+* `@` opens a menu that lets you convert tabs to spaces or spaces to tabs (plain
+Kakoune uses `@` and `Alt-@` to this end)
 
 * `Alt-v` redoes the last selection change (mnemonic: Kakoune undoes the last
 selection change with `Alt-u`, and `v` follows `u` in the alphabet)
 
-* `@` opens a menu that lets you convert tabs to spaces or spaces to tabs (plain
-Kakoune uses `@` and `Alt-@` to this end)
+* `!` pipes each selection through an external program, ignoring its output
 
 
 # Bonus: surrounding
