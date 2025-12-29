@@ -62,7 +62,7 @@ change).
 # USAGE
 
 What follows is an explanation of Eak's keymap, organized by sections to facilitate
-learning. 
+learning.
 
 The most important sections (about **moving directionally** and **moving by words**)
 come first, as it is there that Eak and plain Kakoune differ more strongly. In plain
@@ -348,9 +348,23 @@ will make `xf` launch `select-my-function-object`.
 
 # Operating on selections
 
-In Eak, selection operations have **simple mnemonics**, as shown by the following
-table. More detailed explanations of selection operations can be found in Kakoune's
-documentation (see `:doc keys`).
+Many selection operations have the same shortcut in plain Kakoune and Eak:
+
+| Selection operation                                        | Shortcut |
+|------------------------------------------------------------|----------|
+| Align selections                                           | &        |
+| Decrease line indent                                       | <        |
+| Increase line indent                                       | >        |
+| Copy selection on next line                                | C        |
+| Unselect surrounding whitespace                            | _        |
+| Create a selection from each regex match                   | s        |
+| Split selections by each regex match                       | S        |
+| Rotate the main selection forward                          | )        |
+| Rotate the main selection backward                         | (        |
+| Replace each selection by its output from a shell pipeline | \|       |
+| Keep the selections that return 0 from a shell pipeline    | $        |
+
+Eak replaces other (mainly Alt-based) shortcuts by simple mnemonics:
 
 | Selection operation                  | Eak | Plain Kakoune |
 |--------------------------------------|-----|---------------|
@@ -359,8 +373,7 @@ documentation (see `:doc keys`).
 | Discard non-matching selections      | D   | Alt-K         |
 | Fuse overlapping selections          | F   | Alt-+         |
 | Merge contiguous selections          | M   | Alt-_         |
-| Duplicate selection on previous line | B   | Alt-C         |
-| Duplicate selection on next line     | C   | C             |
+| Copy selection on previous line      | B   | Alt-C         |
 | Copy indent                          | I   | Alt-&         |
 | Decrease indent liberally            | H   | Alt-<         |
 | Increase indent liberally            | L   | Alt->         |
@@ -370,13 +383,12 @@ documentation (see `:doc keys`).
 | Select first and last characters     | Y   | Alt-S         |
 | Keep only the main selection         | q   | ,             |
 
-Only a few entries are worth commenting:
+Only a few mnemonics are worth commenting:
 
 * `#` clears the main selection; think of commenting out the main selection
 
-* `B` duplicates the selection on the previous line because in Kakoune, `C`
-duplicates the selection on the next line; "C" means "copying", and "B" comes
-before "C" in the alphabet
+* `B` copies the selection on the previous line because in Kakoune, `C` copies
+the selection on the next line; "B" comes before "C" in the alphabet
 
 * Eak's keys for liberal indent and unindent (`Alt->` and `Alt-<` in plain Kakoune)
 are directional; `L` means "right" and `H` means "left" (cf. `l` and `h`)
@@ -387,7 +399,7 @@ with prongs pointing at the first and last characters
 * `q` keeps only the the main selection; think of quitting the multiple-selection
 display to come back to a single selection
 
-The shortcuts for splitting selections on line boundaries and rotating selection
+Eak's shortcuts for splitting selections on line boundaries and rotating selection
 contents are more complex, but still easy to remember:
 
 | Selection operation                  | Eak   | Plain Kakoune |
@@ -416,20 +428,6 @@ Eak will perform rotation by paragraphs
 
 Automatic word permutation leaves **spaces and punctuation** unaffected. For
 example, applying `Alt-r` to "hello, Dolly" gives "Dolly, hello".
-
-Finally, aside from `C` (mentioned above), some selection operations have shortcuts
-in plain Kakoune that **are still valid in Eak**:
-
-| Selection operation                                        | Shortcut |
-|------------------------------------------------------------|----------|
-| Align selection cursors                                    | &        |
-| Unselect surrounding whitespace                            | _        |
-| Create a selection from each regex match                   | s        |
-| Split selections by each regex match                       | S        |
-| Rotate the main selection forward                          | )        |
-| Rotate the main selection backward                         | (        |
-| Replace each selection by its output from a shell pipeline | \|       |
-| Keep the selections that return 0 from a shell pipeline    | $        |
 
 
 # Yanking and pasting
