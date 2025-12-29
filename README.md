@@ -66,17 +66,15 @@ learning.
 
 The most important sections (about **moving directionally** and **moving by words**)
 come first, as it is there that Eak and plain Kakoune differ more strongly. In plain
-Kakoune, different keys are used for extending and moving. In Eak, the same keys may
+Kakoune, different keys are used for moving and extending. In Eak, the same keys may
 move or extend the selection, depending on its current state (e.g., how many characters
 it contains).
 
 Once you understand Eak's basic movements, the next step is to use `z`, `x`, `e`
-(meaning roughly "left", "center," and "right") for insertion and selection.
-
-The rest is learning the mnemonics for common operations and using `-` to handle
-marks. Fortunately, many of the key mappings mentioned below are discoverable as part
-of the `-`, `z`, `x`, `e`, and `g` menus, so there is no need to remember everything
-at once.
+(meaning roughly "left", "center," and "right") for insertion and selection. The
+rest is learning the mnemonics for common operations and using `-` to handle marks.
+All of Eak's key sequences are discoverable as part of the `-`, `z`, `x`, `e`, and
+`g` menus, so there is no need to remember everything at once.
 
 You can read the explanation online or [download it as a text file](USAGE.txt), open
 it in Kakoune, and check the explanation hands-on.
