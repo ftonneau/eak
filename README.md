@@ -32,12 +32,12 @@ Do not use Eak if you are new to Kakoune. Instead, spend some time learning abou
 Kakoune's operations (especially those that involve multiple selections) and please
 **become familiar with the default keymap**.
 
-Many of Kakoune's default key combinations (for example, those without `Alt-Shift`)
-**remain valid in Eak**, and writing shareable plugins requires knowing the default
-keymap anyway, so you cannot skip this familiarization phase.
+Many of Kakoune's default key combinations **remain valid in Eak**, and writing
+shareable plugins requires knowing the default keymap anyway, so you cannot skip
+this familiarization phase.
 
-Once you are familiar with Kakoune, you may consider using Eak if (and only if) the
-prevalence of modifiers in the default keymap bothers you.
+Once you are familiar with Kakoune's mode of operation, you may consider using Eak if
+(and only if) the prevalence of modifiers in the default keymap bothers you.
 
 
 # Installation
@@ -73,10 +73,10 @@ it contains).
 Once you understand Eak's basic movements, the next step is to use `z`, `x`, `e`
 (meaning roughly "left", "center," and "right") for insertion and selection.
 
-The rest is just to learn the mnemonics for common operations, and using `-` to handle
-groups of selections/marks. Fortunately, many of the key mappings mentioned below are
-discoverable as part of the `-`, `z`, `x`, `e`, and `g` menus, so there is no need
-to remember everything at once.
+The rest is learning the mnemonics for common operations and using `-` to handle
+marks. Fortunately, many of the key mappings mentioned below are discoverable as part
+of the `-`, `z`, `x`, `e`, and `g` menus, so there is no need to remember everything
+at once.
 
 You can read the explanation online or [download it as a text file](USAGE.txt), open
 it in Kakoune, and check the explanation hands-on.
