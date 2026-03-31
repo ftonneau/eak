@@ -515,12 +515,9 @@ will operate **in relation to the direction of the ongoing search**:
 
 * `n` will move to the next target in this direction
 
-* `Alt-n` will add the next target to the selection(s)
+* `N` will add the next target to the selection(s)
 
-* `N` will move to the **previous** target
-
-This behavior is more consistent with Vim than with plain Kakoune, and allows us
-to bypass the double modifier in `Alt-Shift-n`.
+* `Alt-n` will move to the previous target
 
 Eak defines two other facilities to make searching easier:
 
