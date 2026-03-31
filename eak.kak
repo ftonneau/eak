@@ -818,16 +818,16 @@ define-command -hidden -params 1 eak-search-fd %{
     # Arg = count
     eak-type %arg(1) /
     map window normal n n
-    map window normal <a-n> N
-    map window normal N <a-n>
+    map window normal N N
+    map window normal <a-n> <a-n>
 }
 
 define-command -hidden -params 1 eak-search-bd %{
     # Arg = count
     eak-type %arg(1) <a-/>
     map window normal n <a-n>
-    map window normal <a-n> <a-N>
-    map window normal N n
+    map window normal N <a-N>
+    map window normal <a-n> n
 }
 
 define-command -hidden eak-truncate-search %{
